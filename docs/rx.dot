@@ -1,0 +1,7 @@
+digraph RX { rankdir=LR; dpi=200; bgcolor=white; node [shape=circle,fontname="Times New Roman",fontsize=14,width=1.1,fixedsize=true]; edge [fontname="Times New Roman",fontsize=12];
+IDLE [label="IDLE",style=filled,fillcolor="#e8f0fe"]; START [label="START"]; DATA [label="DATA"]; STOP [label="STOP"];
+init [shape=point,width=0.1]; init->IDLE [label="rst"];
+IDLE->IDLE [label="rx_sync=1"]; IDLE->START [label="rx_sync=0\n(спад)"];
+START->START [label="clk_cnt<HALF\nclk_cnt++"]; START->IDLE [label="clk_cnt=HALF\nrx_sync=1 (завада)"]; START->DATA [label="clk_cnt=HALF\nrx_sync=0"];
+DATA->DATA [label="clk_cnt<CPB-1\nабо bit_idx<7\n(зсув rx_sync у shreg)"]; DATA->STOP [label="clk_cnt=CPB-1\nі bit_idx=7"];
+STOP->STOP [label="clk_cnt<CPB-1"]; STOP->IDLE [label="clk_cnt=CPB-1\nrx_data<=shreg\nrx_valid<=1\nframe_err<=~rx_sync"]; }

@@ -1,0 +1,7 @@
+digraph TX { rankdir=LR; dpi=200; bgcolor=white; node [shape=circle,fontname="Times New Roman",fontsize=14,width=1.1,fixedsize=true]; edge [fontname="Times New Roman",fontsize=12];
+IDLE [label="IDLE\ntx=1",style=filled,fillcolor="#e8f0fe"]; START [label="START\ntx=0"]; DATA [label="DATA\ntx=D[i]"]; STOP [label="STOP\ntx=1"];
+init [shape=point,width=0.1]; init->IDLE [label="rst"];
+IDLE->IDLE [label="tx_start=0"]; IDLE->START [label="tx_start=1\nshreg<=tx_data"];
+START->START [label="clk_cnt<CPB-1\nclk_cnt++"]; START->DATA [label="clk_cnt=CPB-1\ntx<=shreg[0]"];
+DATA->DATA [label="clk_cnt<CPB-1\n або bit_idx<7"]; DATA->STOP [label="clk_cnt=CPB-1\nі bit_idx=7"];
+STOP->STOP [label="clk_cnt<CPB-1"]; STOP->IDLE [label="clk_cnt=CPB-1\ntx_done<=1"]; }
